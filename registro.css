@@ -1,0 +1,27 @@
+#reg-dialog{max-width:min(560px,95vw);width:100%;color:var(--text);padding:clamp(16px,3vw,30px)}
+#reg-dialog::backdrop{background:#000d}
+#reg-dialog h2{margin:2px 0 6px;font-size:clamp(24px,4vw,34px);letter-spacing:-.03em}
+.reg-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:560px){.reg-row{grid-template-columns:1fr}}
+.reg-err{color:#ff9d8a;min-height:1.2em;margin:6px 0 0;font-size:13px}
+.reg-note{font-size:12px;color:var(--muted);margin-top:10px}
+.ticket{display:grid;grid-template-columns:1fr 130px;background:#faf9f5;color:#151515;border-radius:14px;overflow:hidden;border:2px solid var(--gold);margin:12px 0;font-family:Inter,system-ui,sans-serif}
+.ticket .main{padding:16px 18px}
+.ticket .top{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:3px solid #151515;padding-bottom:8px;margin-bottom:10px;font-weight:800;letter-spacing:.06em}
+.ticket .top small{font-weight:600;letter-spacing:.12em;font-size:10px}
+.ticket .lbl{font-size:9px;letter-spacing:.14em;color:#555;font-weight:700;display:block}
+.ticket .val{font-size:15px;font-weight:750;display:block;margin-bottom:8px;overflow-wrap:anywhere}
+.ticket .big{font-size:22px}
+.ticket .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0 12px}
+.ticket .stub{background:var(--gold);color:#151515;padding:16px 12px;border-left:2px dashed #151515;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.ticket .stub .lbl{color:#151515}
+.ticket .stub .no{font:800 15px ui-monospace,monospace}
+.ticket .bars{height:38px;margin:6px 0;background:repeating-linear-gradient(90deg,#151515 0 2px,transparent 2px 4px,#151515 4px 5px,transparent 5px 8px,#151515 8px 11px,transparent 11px 12px)}
+@media(max-width:480px){.ticket{grid-template-columns:1fr}.ticket .stub{border-left:0;border-top:2px dashed #151515}}
+#print-area{display:none}
+@media print{
+  body>*:not(#print-area){display:none!important}
+  #print-area{display:block!important;padding:20px}
+  body{background:#fff!important}
+  .ticket{break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
