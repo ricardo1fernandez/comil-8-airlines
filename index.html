@@ -500,7 +500,8 @@ const flightPhotos = ["data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA
   const stages = [
     ['Check-in Airport','Welcome to COMIL 8 AIRLINES. May I see your boarding pass?','airport',0],
     ['Security','Please place your bag on the conveyor belt.','airport'],
-    ['Passport Control','Present your passport and answer the immigration officer in English.','airport',1],
+    ['Passport Control','Present your passport and answer the immigration officer in English.','passport',1],
+    ['FLY GUIDELINES','Review essential safety instructions before boarding: seat belts, luggage, airplane mode and crew directions.','guidelines'],
     ['Plane Taking Off','Cabin crew, prepare for takeoff. Next stop: Australia.','flight'],
     ['Gate 1 · Arrival in Australia','Welcome to Australia! Let’s explore Sydney and beyond.','au',2],
     ['Gate 2 · Flight to the UK','We are now boarding our flight to the United Kingdom.','flight'],
@@ -592,7 +593,7 @@ const flightPhotos = ["data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA
     $('flight-replay').hidden=!flight;
     [...route.children].forEach((button,i)=>button.setAttribute('aria-current',i===index?'step':'false'));
     photo.hidden=true;canvas.hidden=!flight;screen.classList.remove('local-scene');
-    screen.style.backgroundImage=mode==='airport'?'url("'+flightTerminal+'")':'';
+    screen.style.backgroundImage=mode==='passport'?'url("assets/passport-control.webp")':mode==='guidelines'?'url("assets/fly-guidelines.webp")':mode==='airport'?'url("'+flightTerminal+'")':'';
     cancelAnimationFrame(animation);
     if(flight)animate(mode);
     info.replaceChildren();
@@ -640,12 +641,18 @@ const flightPhotos = ["data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA
       info.append(list);
       info.append(window.gateGallery([place.photo]));
     }
-    const departureGates={5:[1],7:[2]};
+    const departureGates={6:[1],8:[2]};
     if(departureGates[index])info.append(window.gateGallery(departureGates[index]));
     if(index===1)info.append(html('p','Security check complete. Continue to Passport Control.'));
-    if(index===2)info.append(html('p','Practice: What’s your name? Where would you like to travel?'));
+    if(mode==='passport')info.append(html('p','Practice: What’s your name? Where would you like to travel?'));
+    if(mode==='guidelines'){
+      info.append(html('h4','Pre-flight Safety Guidelines'));
+      const checklist=html('ul','');
+      ['Fasten your seat belt.','Keep your hand luggage safely stored.','Switch your phone to airplane mode.','Follow the cabin crew’s instructions.','Locate the nearest emergency exit.'].forEach(item=>checklist.append(html('li',item)));
+      info.append(checklist);
+    }
     if(stop!==undefined){
-      const button=html('button',index===0?'Generar mi pase de abordar':index===2?'Abrir Passport Control':index===stages.length-1?'Volver a Check-in':'Abrir actividad cultural');
+      const button=html('button',index===0?'Generar mi pase de abordar':mode==='passport'?'Abrir Passport Control':index===stages.length-1?'Volver a Check-in':'Abrir actividad cultural');
       button.type='button';button.onclick=()=>{
         const jump=()=>selectStop(stop,true);
         if(document.fullscreenElement===$('flight'))document.exitFullscreen().then(jump).catch(()=>{});
